@@ -1,0 +1,952 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2299.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="tr"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;YGA Gönüllü İlgi Alanları Testi&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.fade-in {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: fadeIn 0.3s ease-in;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes fadeIn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>from { opacity: 0; transform: translateY(10px); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>to { opacity: 1; transform: translateY(0); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.progress-bar {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: width 0.3s ease-in-out;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="app"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const forcedChoiceQuestions = [</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bir YGA etkinliğinde hangi rolü almak daha çok zevk verir?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Sahne düzenini kurmak ve teknik ekipmanları ayarlamak", type: "R" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Katılımcılarla sohbet edip onları rahat ettirmek", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Etkinlik programını detaylı şekilde planlamak", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Boş bir cumartesi günün var. Ne yapmayı tercih edersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yeni bir araştırma makalesini okumak veya belgesel izlemek", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Arkadaşlarınla bir şeyler organize etmek", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Bir hobi projesinde yaratıcı bir şey üretmek", type: "A" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bir bilim sahasında çocuklar ilgisiz görünüyor. Ne yaparsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Deneyi daha görsel ve eğlenceli hale getiririm", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Çocuklarla birebir konuşup ne merak ettiklerini anlamaya çalışırım", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Deneyin bilimsel mantığını farklı şekilde açıklarım", type: "I" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "YGA'da yeni bir proje başlatılacak. Hangi kısmında yer almak istersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Projenin nasıl çalışacağını analiz edip araştırma yapmak", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Projeyi paydaşlara sunmak ve destek toplamak", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Proje dosyalarını düzenlemek ve takibi yapmak", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Hangi tür görevlerde kendini daha enerjik hissedersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Fiziksel bir şey yapmak (kurulum, düzenleme, taşıma)", type: "R" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "İnsanlarla konuşmak, dinlemek, yardım etmek", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yaratıcı içerik üretmek (yazı, görsel, video)", type: "A" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Twin bilim setleriyle ilgili bir görev var. Hangisini seçersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Setleri kurmak ve çocuklara nasıl kullanılacağını göstermek", type: "R" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Setlerle yapılabilecek yeni deneyler araştırmak", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Setlerin envanter takibini ve lojistiğini yönetmek", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bir webinar hazırlığı yapılıyor. Hangi görevi tercih edersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Konuşmacıların sunumlarını tasarlamak", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Katılımcı kayıtlarını organize etmek ve hatırlatmalar göndermek", type: "C" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Webinar akışını yönetmek ve ekibi koordine etmek", type: "E" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Hangi durumda daha mutlu olursun?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Karmaşık bir problemi çözdüğünde", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Birine yardım edip onu mutlu ettiğinde", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Orijinal bir fikir üretip hayata geçirdiğinde", type: "A" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "YGA için yurt dışı bir toplantıya gidiyorsun. Neler yaparsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Sunumları hazırlamak ve temsil etmek", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Toplantı notlarını tutmak ve raporlamak", type: "C" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Oradaki insanlarla tanışmak ve ilişki kurmak", type: "S" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bilim Seferberliği için yeni bir lokasyon araştırması yapılıyor. Hangisinde yer alırsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Verileri analiz edip en uygun yeri bulmak", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yerel paydaşlarla görüşmeler yapmak", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Lojistik planlamayı ve bütçeyi hesaplamak", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bir kampda hangi aktivitede olmak daha zevkli?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Gece ateş başında hikaye anlatmak veya oyun yönetmek", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yeni katılanlarla tanışıp onlara rehberlik etmek", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kampın günlük programını organize etmek", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Aşağıdaki çalışma ortamlarından hangisinde daha verimli olursun?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Atölyede, makerspace'te, fiziksel şeyler üzerinde çalışırken", type: "R" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "İnsanlarla dolu bir ortamda, sürekli etkileşimde", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Sessiz bir yerde, düşünüp araştırma yaparken", type: "I" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Twin uygulaması için yeni bir özellik geliştiriliyor. Hangi kısmında olmak istersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kullanıcı deneyimini (UX) tasarlamak", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Teknik altyapıyı kodlamak", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kullanıcı testleri yapıp feedback toplamak", type: "S" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Zirve hazırlığında hangi görevi tercih edersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Sahne tasarımını ve dekorasyonu yapmak", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Katılımcı deneyimini planlamak ve akışı yönetmek", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kayıtları ve katılımcı listelerini yönetmek", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Yeni bir gönüllüyle çalışıyorsun. Nasıl yaklaşırsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Ona görevlerini net şekilde açıklarım ve takip ederim", type: "C" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Onunla oturup tanışırım, neye ihtiyacı var dinlerim", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Ona zorlayıcı bir görev verip öğrenmesini izlerim", type: "E" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Hangi başarı seni daha çok tatmin eder?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Bir şeyi baştan sona kendin ürettiğinde", type: "R" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Bir sorunu analiz edip çözüm bulduğunda", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Bir ekibi başarıya taşıdığında", type: "E" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Content ekibi için yeni bir video çekiliyor. Nerede olmak istersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kamera ve ışık ayarlarını yapmak", type: "R" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Senaryo ve konsept geliştirmek", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Çekimleri organize edip ekibi yönetmek", type: "E" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Global Expansion için bir sunum hazırlanıyor. Hangisini yaparsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Verileri araştırıp stratejik analiz yapmak", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Sunumu görsel ve çekici hale getirmek", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Sunumu yapmak ve paydaşları ikna etmek", type: "E" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bir bilim sahasında teknik bir sorun oluştu. Ne yaparsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Sorunu hemen kendim çözmeye çalışırım", type: "R" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Ekiple birlikte beyin fırtınası yaparım", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Problemi sistematik şekilde analiz edip çözüm ararım", type: "I" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "YGA'nın sosyal medya içerikleri için ne yapmak istersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Görseller ve videolar tasarlamak", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Analitikleri takip edip strateji geliştirmek", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Takipçilerle etkileşime geçmek ve community yönetmek", type: "S" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Sustainability projeleri için hangi rolde olmak istersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Çevresel etki analizi yapmak", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Paydaşlarla iş birlikleri kurmak", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Projelerin düzenli raporlamasını yapmak", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Hangi tür toplantılarda daha aktif ve enerjik olursun?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Beyin fırtınası ve yaratıcı çalışma toplantıları", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Stratejik planlama ve karar alma toplantıları", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Detaylı veri analizi ve raporlama toplantıları", type: "I" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Program Development için yeni bir kamp tasarlanıyor. Nerede katkı sağlarsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kampın eğitim içeriğini araştırmak", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kampın interaktif aktivitelerini tasarlamak", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kampın lojistiğini ve timeline'ını planlamak", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "People &amp; Culture ekibinde hangi görevi tercih edersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Gönüllülerle 1:1 görüşmeler yapıp onları dinlemek", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Engagement anketleri ve veri analizi", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Onboarding süreçlerini sistematize etmek", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bir çocuk sahada 'Ben bunu yapamam' diyor. Ne yaparsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Ona adım adım gösteririm, beraber yaparız", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Onu farklı bir yaklaşım denemeye teşvik ederim", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Ona neden yapabileceğini mantıksal olarak açıklarım", type: "I" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "GSC (Global Sustainability Challenge) için ne yapmak istersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Katılımcı ekiplere mentoring yapmak", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yarışmanın organizasyonunu ve jüri sürecini yönetmek", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Projlerin teknik kalitesini değerlendirmek", type: "I" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Satış ekibinde hangi rolü tercih edersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Potansiyel müşterilerle görüşmeler yapmak", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Satış verilerini analiz edip strateji geliştirmek", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "CRM sistemini düzenlemek ve takip yapmak", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Twin AI Companion için hangi kısımda çalışmak istersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Algoritma ve makine öğrenmesi geliştirmek", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kullanıcı arayüzünü tasarlamak", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kullanıcı testleri yapıp feedback toplamak", type: "S" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bir proje başarısız oldu. Nasıl tepki verirsin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Neyin yanlış gittiğini analiz ederim", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Ekibin moralini yüksek tutmaya çalışırım", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Hemen yeni bir plan yapar, harekete geçerim", type: "E" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Technology ekibinde hangi rolü tercih edersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Backend development ve database yönetimi", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Frontend development ve görsel tasarım", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Bug fixing ve sistem bakımı", type: "R" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Ruanda Eğitim Bakanlığı ile görüşme var. Hazırlıkta nasıl katkı sağlarsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Sunum materyallerini hazırlamak", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Görüşmeyi yönetmek ve müzakere etmek", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Arka planda veri ve raporlar hazırlamak", type: "I" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Spokes bisiklet projesi için hangi görevi tercih edersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Rota planlaması ve lojistik", type: "C" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yol boyunca çocuklarla etkileşim", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Projenin hikayesini anlatmak ve belgelemek", type: "A" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Gönüllendirin (Marketing) ekibinde ne yapmak istersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kampanya stratejileri geliştirmek", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yaratıcı içerikler üretmek", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kampanya metriklerini takip etmek", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bir çocuk bir deneyde beklenmedik bir sonuç buldu. Ne yaparsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "'Vay! Bunu neden oldu acaba? Araştıralım!' derim", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "'Harika bir keşif yaptın!' diyerek onu kutlarım", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "'Farklı bir şey deneyelim belki daha ilginç olur' derim", type: "A" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Twin Digital Library için hangi kısımda çalışmak istersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "İçerik kataloglaması ve organizasyonu", type: "C" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yeni eğitim materyalleri geliştirmek", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kullanıcı engagement stratejileri", type: "E" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bilim Seferberliği'nin etkisini nasıl ölçmek istersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Veri toplama ve istatistiksel analiz", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Çocuklarla röportajlar yapma", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Raporlama ve görselleştirme", type: "A" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Yeni bir gönüllü kampa geldi ve kaybolmuş görünüyor. Ne yaparsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Ona yaklaşır, kendimi tanıtır, yardım teklif ederim", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Ona kampın haritasını ve programını detaylı açıklarım", type: "C" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Onu gruba dahil eder, tanışmasını sağlarım", type: "E" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Product ekibinde hangi görevi tercih edersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kullanıcı ihtiyaçlarını araştırmak", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Product roadmap ve prioritization", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Feature testleri ve QA", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Hangi tür görevlerde zaman nasıl geçtiğini anlamazsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Bir şeyleri tamir ederken veya monte ederken", type: "R" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Araştırma yaparken veya veri analiz ederken", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yaratıcı çalışırken (yazarken, tasarlarken)", type: "A" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Program Development'ta hangi kısma odaklanırsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Gönüllü deneyimini iyileştirmek", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Program etkisini ölçümlemek", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Süreçleri optimize etmek", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bir toplantıda hangi rol sana daha doğal gelir?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Not alan, görevleri takip eden", type: "C" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yaratıcı fikirler öneren", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Toplantıyı yöneten, kararları organize eden", type: "E" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Content üretimi için hangi formatı tercih edersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yazılı içerik (blog, makale)", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Video içerik (çekim, kurgu)", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "İnfografik ve data visualization", type: "A" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Global Expansion için yeni bir ülke araştırması yapılıyor. Nasıl katkı sağlarsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Ülkenin eğitim sistemini analiz etmek", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yerel ortaklarla networking yapmak", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Feasibility raporunu hazırlamak", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bir çocuğun ailesi sahaya geldi ve YGA'yı merak ediyor. Ne yaparsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Onlarla sıcak bir şekilde sohbet eder, YGA'yı anlatırım", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Onlara YGA'nın etki raporlarını ve verilerini gösteririm", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Onları bir bilim deneyi yapmaya davet ederim", type: "R" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Technology stack kararı alınıyor. Hangi yaklaşımı tercih edersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "En yeni teknolojileri araştırıp denerim", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Ekiple konuşur, ihtiyaçları dinlerim", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Mevcut sistemlerle uyumlu, stabil olanı seçerim", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Sustainability projelerinde hangi kısım seni daha çok heyecanlandırır?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Carbon footprint hesaplama ve analiz", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yeşil kampanyalar tasarlama", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Paydaşlarla sürdürülebilirlik anlaşmaları yapmak", type: "E" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "People &amp; Culture için yeni bir initiative başlatılıyor. Hangisini tercih edersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Mentoring programı tasarlamak", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Gönüllü gelişim framework'ü oluşturmak", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Team building aktiviteleri organize etmek", type: "E" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bilim Seferberliği için yeni bir deney seti geliştiriliyor. Nerede olmak istersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Deneyin bilimsel içeriğini tasarlamak", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Fiziksel materyalleri kurmak ve test etmek", type: "R" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Deneyin anlaşılır şekilde çocuklara anlatılmasını sağlamak", type: "S" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "GSC için sponsorluk görüşmeleri yapılıyor. Hangi rolü tercih edersin?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Sponsorluk paketlerini hazırlamak", type: "C" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Sponsorlarla görüşmeler yapmak", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Sponsorluk etkisini ölçümlemek", type: "I" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Hangi tür çalışma seni daha çok motive eder?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Uzun vadeli, stratejik projeler", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Hızlı, dinamik, kısa döngülü işler", type: "R" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Düzenli, öngörülebilir, sistemli işler", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Satış ekibi için yeni bir pitch hazırlanıyor. Nasıl katkı sağlarsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Pitch storyline ve messaging", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Müşteri segmentasyonu ve analiz", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Pitch deck tasarımı", type: "A" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Twin AI Companion'da bir bug var. Nasıl yaklaşırsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Hemen kodu inceleyip düzeltmeye çalışırım", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Bug'ın kullanıcıları nasıl etkilediğini anlarım", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Bug tracking sistemine kaydeder, prioritize ederim", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Gönüllendirin kampanyası için yeni bir strateji gerekiyor. Ne yaparsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Geçmiş verileri analiz edip insight çıkarırım", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yaratıcı bir kampanya konsepti tasarlarım", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kampanyayı adım adım planlarım", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bir projede ekip içinde fikir ayrılığı var. Ne yaparsın?",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Herkesin görüşünü dinler, ortak zemini ararım", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Verilere bakar, en mantıklı çözümü bulurum", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Karar alır, ekibi yönlendiririm", type: "E" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const rankingQuestions = [</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bir YGA projesi için aşağıdaki görevleri sırala (1=En çok keyif alırım, 4=En az keyif alırım):",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Projenin teknik altyapısını kurmak", type: "R" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Projenin etkisini araştırmak ve analiz etmek", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Proje için yaratıcı içerikler üretmek", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Proje ekibini yönetmek ve koordine etmek", type: "E" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bir bilim sahasında aşağıdaki aktiviteleri sırala:",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Setleri kurmak ve teknik hazırlıkları yapmak", type: "R" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Çocuklarla birebir ilgilenmek ve yardım etmek", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Sahanın organizasyonunu ve lojistiğini yönetmek", type: "C" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Deneylerin bilimsel içeriğini geliştirmek", type: "I" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bir kampanya için aşağıdaki görevleri sırala:",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kampanya görsellerini ve videolarını tasarlamak", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kampanyayı sosyal medyada yürütmek ve yönetmek", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kampanya metriklerini takip etmek ve raporlamak", type: "C" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Hedef kitle analizi ve strateji geliştirmek", type: "I" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Twin için yeni bir özellik geliştiriliyor. Aşağıdaki rolleri sırala:",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kod yazmak ve backend geliştirmek", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kullanıcı arayüzünü tasarlamak", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Kullanıcılarla test yapıp feedback almak", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Özelliği düzenli olarak test edip bug çıkarmak", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bir toplantıda aşağıdaki rolleri sırala:",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yaratıcı fikirler üretmek ve brainstorming yönetmek", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Toplantıyı yönetmek ve kararları netleştirmek", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Toplantı notlarını tutmak ve görevleri dağıtmak", type: "C" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Veri ve analiz sunmak", type: "I" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Global Expansion için aşağıdaki görevleri sırala:",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yeni ülkelerin pazar araştırmasını yapmak", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Uluslararası ortaklarla görüşmeler yapmak", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Expansion dokümanlarını ve planlarını hazırlamak", type: "C" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Expansion hikayesini anlatmak için içerik üretmek", type: "A" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "People &amp; Culture için aşağıdaki aktiviteleri sırala:",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Gönüllülerle 1:1 görüşmeler yapıp onları dinlemek", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Gönüllü memnuniyet anketleri ve analiz", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Onboarding süreçlerini dokümante etmek", type: "C" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Team building aktiviteleri tasarlamak", type: "A" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Sustainability projesinde aşağıdaki rolleri sırala:",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Çevresel etki ölçümlemesi ve raporlama", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Sürdürülebilirlik kampanyaları tasarlamak", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Sustainability paydaşlarıyla iş birliği kurmak", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Sustainability metriklerini düzenli takip etmek", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Content üretimi için aşağıdaki formatları sırala:",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yazılı içerik (blog, makale)", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Video çekimi ve kurgusu", type: "A" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Sosyal medya community management", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "İçerik takvimleri ve planlama", type: "C" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "GSC için aşağıdaki görevleri sırala:",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Katılımcı ekiplere mentoring yapmak", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yarışma süreçlerini organize etmek", type: "C" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Projelerin teknik kalitesini değerlendirmek", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Yarışmayı tanıtmak ve sponsorlarla görüşmek", type: "E" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Satış sürecinde aşağıdaki rolleri sırala:",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Müşterilerle görüşmeler ve ikna", type: "E" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Satış verilerini analiz etmek", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "CRM sistemini yönetmek ve takip", type: "C" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Satış materyallerini tasarlamak", type: "A" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q: "Bir krizde (örn: son dakika değişiklikleri) aşağıdaki yaklaşımları sırala:",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Hızlıca pratik çözüm bulup uygulamak", type: "R" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Durumu analiz edip en iyi çözümü bulmak", type: "I" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Ekibin moralini yüksek tutmak", type: "S" },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ text: "Krizi fırsata çevirmek için yaratıcı düşünmek", type: "A" }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let state = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>stage: 'welcome',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentQuestion: 0,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>answers: {},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>rankingAnswers: {},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>scores: { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function render() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const app = document.getElementById('app');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (state.stage === 'welcome') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>app.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="min-h-screen flex items-center justify-center p-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="max-w-2xl w-full bg-white rounded-3xl shadow-2xl p-12 fade-in"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="text-center mb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mx-auto mb-6 flex items-center justify-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span class="text-white text-3xl font-bold"&gt;YGA&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h1 class="text-4xl font-bold text-gray-900 mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>Gönüllü İlgi Alanları Testi</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-xl text-gray-600 mb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>YGA'da hangi rollerde en çok keyif alacağını keşfet</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 mb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h2 class="text-lg font-semibold text-gray-900 mb-4"&gt;Önemli:&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;ul class="space-y-3 text-gray-700"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;li class="flex items-start"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;svg class="w-5 h-5 text-blue-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;span&gt;Neyi iyi yaptığını değil, neyi yapmaktan zevk aldığını düşün&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;li class="flex items-start"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;svg class="w-5 h-5 text-blue-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;span&gt;Başkalarının senden ne beklediğini değil, sen ne istediğini işaretle&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;li class="flex items-start"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;svg class="w-5 h-5 text-blue-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;span&gt;'Doğru' cevap yok, sadece senin cevabın var&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;li class="flex items-start"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;svg class="w-5 h-5 text-blue-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;span&gt;İlk içgüdünü takip et, çok düşünme&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="flex items-center justify-between text-sm text-gray-600 mb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="flex items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;span class="text-blue-600 font-semibold"&gt;66&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span&gt;Soru&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="flex items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;span class="text-purple-600 font-semibold"&gt;15&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span&gt;Dakika&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;button onclick="startTest()" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-semibold py-4 rounded-2xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>Teste Başla</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (state.stage === 'test') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>renderTest();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (state.stage === 'ranking') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>renderRanking();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (state.stage === 'results') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>renderResults();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function renderTest() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const question = forcedChoiceQuestions[state.currentQuestion];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const progress = (state.currentQuestion / forcedChoiceQuestions.length) * 100;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('app').innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="min-h-screen flex items-center justify-center p-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="max-w-3xl w-full"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="mb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="flex items-center justify-between mb-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;span class="text-sm font-medium text-gray-600"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>Soru ${state.currentQuestion + 1} / ${forcedChoiceQuestions.length}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;span class="text-sm font-medium text-blue-600"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>Bölüm 1: Seçim Soruları</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="h-full bg-gradient-to-r from-blue-600 to-purple-600 progress-bar" style="width: ${progress}%"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 fade-in"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-8 leading-relaxed"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>${question.q}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/h2&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>${question.options.map((option, idx) =&gt; `</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;button onclick="handleAnswer('${option.type}')" class="w-full text-left p-6 rounded-2xl border-2 transition-all duration-200 hover:border-blue-500 hover:shadow-lg group ${</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>state.answers[state.currentQuestion] === option.type</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>? 'border-blue-600 bg-blue-50 shadow-md'</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>: 'border-gray-200 bg-white hover:bg-gray-50'</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>}"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div class="flex items-start"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div class="w-6 h-6 rounded-full border-2 flex items-center justify-center mr-4 mt-0.5 flex-shrink-0 transition-colors ${</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>state.answers[state.currentQuestion] === option.type</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>? 'border-blue-600 bg-blue-600'</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>: 'border-gray-300 group-hover:border-blue-500'</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>}"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>${state.answers[state.currentQuestion] === option.type ? '&lt;div class="w-2 h-2 bg-white rounded-full"&gt;&lt;/div&gt;' : ''}</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;span class="text-lg text-gray-800 leading-relaxed"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>${option.text}</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>`).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>${state.currentQuestion &gt; 0 ? `</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;button onclick="previousQuestion()" class="mt-8 text-gray-600 hover:text-gray-900 font-medium transition-colors"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>← Önceki Soru</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>` : ''}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function renderRanking() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const allComplete = checkAllRankingsComplete();</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('app').innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="min-h-screen p-4 py-12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="max-w-4xl mx-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="mb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="flex items-center justify-between mb-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;span class="text-sm font-medium text-gray-600"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>Bölüm 2: Sıralama Soruları</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;span class="text-sm font-medium text-purple-600"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>Son Aşama</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="h-full bg-gradient-to-r from-purple-600 to-pink-600 w-full"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 mb-8 fade-in"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>Son Aşama: Aktiviteleri Sırala</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="text-gray-600 mb-8 text-lg"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>Her soruda aktiviteleri &lt;span class="font-semibold text-purple-600"&gt;1-4 arası sırala&lt;/span&gt;.<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                                </span>(1=En çok keyif alırım, 4=En az keyif alırım)</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="space-y-12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>${rankingQuestions.map((question, qIdx) =&gt; `</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div class="border-b border-gray-200 pb-8 last:border-b-0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;h3 class="text-lg font-semibold text-gray-900 mb-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>${qIdx + 1}. ${question.q}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div class="space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>${question.options.map((option, optIdx) =&gt; `</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;div class="bg-gray-50 rounded-xl p-5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;div class="flex items-center justify-between"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;span class="text-gray-800 flex-1 pr-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>${option.text}</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;div class="flex gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>${[1, 2, 3, 4].map(rank =&gt; `</p>
+<p class="p1"><span class="Apple-converted-space">                                                                </span>&lt;button onclick="handleRanking(${qIdx}, ${optIdx}, ${rank})" class="w-12 h-12 rounded-xl font-semibold transition-all duration-200 ${</p>
+<p class="p1"><span class="Apple-converted-space">                                                                    </span>(state.rankingAnswers[qIdx] &amp;&amp; state.rankingAnswers[qIdx][optIdx] === rank)</p>
+<p class="p1"><span class="Apple-converted-space">                                                                        </span>? 'bg-gradient-to-br from-purple-600 to-pink-600 text-white shadow-lg scale-110'</p>
+<p class="p1"><span class="Apple-converted-space">                                                                        </span>: 'bg-white text-gray-600 border-2 border-gray-300 hover:border-purple-500 hover:text-purple-600'</p>
+<p class="p1"><span class="Apple-converted-space">                                                                </span>}"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                                    </span>${rank}</p>
+<p class="p1"><span class="Apple-converted-space">                                                                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>`).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>`).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>`).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;button onclick="calculateResults()" ${!allComplete ? 'disabled' : ''} class="w-full text-lg font-semibold py-5 rounded-2xl transition-all duration-200 shadow-lg flex items-center justify-center ${</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>allComplete</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 hover:shadow-xl'</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>: 'bg-gray-300 text-gray-500 cursor-not-allowed'</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>}"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>${allComplete ? 'Sonuçları Gör →' : 'Lütfen tüm soruları tamamla'}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function renderResults() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const typeInfo = {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>R: { name: "Realistic", desc: "Pratik, elle yapma, teknik" },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>I: { name: "Investigative", desc: "Analitik, araştırmacı, meraklı" },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>A: { name: "Artistic", desc: "Yaratıcı, özgün, ifade odaklı" },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>S: { name: "Social", desc: "İnsancıl, yardımsever, empatik" },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>E: { name: "Enterprising", desc: "Girişimci, lider, ikna edici" },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>C: { name: "Conventional", desc: "Organize, sistemli, detaycı" }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const topTypes = Object.entries(state.scores).sort((a, b) =&gt; b[1] - a[1]).slice(0, 3);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const maxScore = 102;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const roles = getRoleRecommendations();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('app').innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="min-h-screen p-4 py-12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="max-w-4xl mx-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 mb-8 fade-in"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="text-center mb-12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full mx-auto mb-6 flex items-center justify-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h1 class="text-4xl font-bold text-gray-900 mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>Sonuçların Hazır!</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-xl text-gray-600"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>İşte senin YGA ilgi alanı profilin</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="mb-12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h2 class="text-2xl font-bold text-gray-900 mb-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>📊 RIASEC Profil Skorların</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>${Object.entries(state.scores).map(([type, score]) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>const info = typeInfo[type];</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>const percentage = Math.round((score / maxScore) * 100);</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>return `</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;div class="flex items-center justify-between mb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;span class="font-semibold text-gray-900 text-lg"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>${type} - ${info.name}</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;span class="text-gray-600 text-sm ml-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>${info.desc}</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;span class="font-bold text-2xl text-gray-900"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>${percentage}%</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;div class="w-full h-4 bg-gray-200 rounded-full overflow-hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;div class="h-full bg-gradient-to-r from-blue-600 to-purple-600 progress-bar" style="width: ${percentage}%"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>}).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 mb-12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h2 class="text-2xl font-bold text-gray-900 mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>🎯 Senin Profil Tipin</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="text-center mb-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div class="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-2xl text-3xl font-bold mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>${topTypes[0][0]}-${topTypes[1][0]}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;p class="text-xl text-gray-700 font-medium"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>${typeInfo[topTypes[0][0]].name} - ${typeInfo[topTypes[1][0]].name}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="grid md:grid-cols-3 gap-4 mt-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>${topTypes.map(([type, score], idx) =&gt; `</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div class="bg-white rounded-xl p-4 text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div class="text-sm text-gray-600 mb-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>${idx === 0 ? '🥇 En Yüksek' : idx === 1 ? '🥈 İkinci' : '🥉 Üçüncü'}</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div class="text-2xl font-bold text-gray-900"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>${type}</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div class="text-sm text-gray-600"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>${Math.round((score / maxScore) * 100)}%</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>`).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="mb-12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h2 class="text-2xl font-bold text-gray-900 mb-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>⭐ Senin İçin En Uygun YGA Rolleri</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>${roles.map((role, idx) =&gt; `</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div class="bg-gradient-to-r from-white to-gray-50 border-2 border-gray-200 rounded-2xl p-6 hover:border-blue-500 hover:shadow-lg transition-all duration-200"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div class="flex items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4 flex-shrink-0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>${idx + 1}</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;h3 class="text-xl font-bold text-gray-900"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>${role}</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;p class="text-gray-600"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>${idx === 0 ? 'En uygun rol - Kuvvetli yönlerinle tam uyumlu' :<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                                                          </span>idx === 1 ? 'Çok uygun - İlgi alanlarına çok yakın' :<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                                                          </span>'Uygun - Gelişim için harika fırsat'}</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>`).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h2 class="text-2xl font-bold text-gray-900 mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>💡 Bir Sonraki Adım</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;ul class="space-y-3 text-gray-700 text-lg"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;li class="flex items-start"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;svg class="w-6 h-6 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;span&gt;101 Kampı'nda mentorünle bu sonuçları konuş&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;li class="flex items-start"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;svg class="w-6 h-6 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;span&gt;İlk projende &lt;strong&gt;${roles[0]}&lt;/strong&gt; alanını dene&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;li class="flex items-start"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;svg class="w-6 h-6 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;span&gt;Kendini gözlemle ve geliştir!&lt;/span&gt;</p>
+</body>
+</html>
